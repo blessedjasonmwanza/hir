@@ -1,4 +1,4 @@
-#HIR 
+# HIR 
 > HIR is a solution to common issues and problems faced by Nkwashi Hackers In Residence students.
 > I am developing this automation solution as a way to help mitigate and/or create an organized schema/way of how hackers report and communicate their requests/issues to staff members.
 
