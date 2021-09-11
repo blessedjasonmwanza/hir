@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#009688">
+    <title>Hir Request</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+        main{
+            min-height: 100vh;
+        }
+        [spinner]{
+            display: flex;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, .12);
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+            /* display: none; */
+        }
+    </style>
+</head>
+<body class="animate__animated animate__zoomIn" onload="load_component('start');" id="start">
+    <aside spinner ondblclick="hide_loader();">
+        <div class="preloader-wrapper active" >
+            <div class="spinner-layer spinner-red-only">
+              <div class="circle-clipper left">
+                <div class="circle"></div>
+              </div><div class="gap-patch">
+                <div class="circle"></div>
+              </div><div class="circle-clipper right">
+                <div class="circle"></div>
+              </div>
+            </div>
+          </div>
+    </aside>
+    <header class="navbar-fixed">
+        <nav class="white-bg">
+          <div class="nav-wrapper">
+            <a  class="brand-logo">
+                <img src="img/nkwashi-logo.png" alt="" onclick="load_component('start');">
+            </a>
+          </div>
+        </nav>
+    </header>
+    <main>
+        <center>Loading...</center>
+    </main>
+    <footer>
+        <center><code><small>Developed by <b>Blessed Jason Mwanza</b></small></code></center>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    </footer>
+    <script>
+        function load_component(file){
+            show_loader();
+            fetch("components/"+file+'.html').then(res => {
+                if(res.ok === true && res.status === 200){
+                    res.text().then((data) =>{
+                        location.hash = file;
+                        hide_loader();
+                        window.scrollTo(0, 0);
+                        return document.querySelector('main').innerHTML = data;
+                    });
+                }else{
+                    hide_loader();
+                    return M.toast({html: `${res.status} ${res.statusText}`, classes: "amber darken-3"});
+                }
+            })
+        }
+        function show_loader(){
+            document.querySelector('[spinner]').style.display = 'flex';
+            return;
+        }
+        function hide_loader(){
+            document.querySelector('[spinner]').style.display = 'none';
+            return;
+        }
+    </script>
+</body>
+</html>
