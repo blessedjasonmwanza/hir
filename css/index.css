@@ -1,15 +1,18 @@
+main{
+    max-width: 600px;
+    margin: auto;
+}
 [home-list]{
     display: block;
-    margin-bottom: 20px;
-    background-color: white;
+    background-color: #ffffff;
     cursor: pointer;
-    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+    box-shadow: 0 2px 5px 0 #00000026, 0 2px 10px 0 #0000001f;
     box-sizing: border-box;
     padding: 10px;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 600px;
+    max-width: 550px;
+    margin: 0px auto 22px auto;
     border-radius: 3px;
+    color: #14615a;
 }
 header{
     background: #00897b !important;

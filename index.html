@@ -27,7 +27,7 @@
         }
     </style>
 </head>
-<body class="animate__animated animate__zoomIn" onload="load_component('start');" id="start">
+<body class="animate__animated animate__zoomIn">
     <aside spinner ondblclick="hide_loader();">
         <div class="preloader-wrapper active" >
             <div class="spinner-layer spinner-red-only">
@@ -58,21 +58,45 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     </footer>
     <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            console.log('dom has loaded');
+            load_component('start');
+            window.scrollTo(0,0);
+        });
+        window.scrollTo(0,0);
+        window.addEventListener('hashchange', function(){
+            let hash = location.hash;
+            if(location.hash.split('').slice(1).join('') !== hash){
+                load_component(hash);
+            }else{
+                console.warn(file + "is already loaded");
+            }
+            
+        });
         function load_component(file){
+            if(file.startsWith('#')){
+                file = file.split('').slice(1).join('');
+            }
             show_loader();
             fetch("components/"+file+'.html').then(res => {
-                if(res.ok === true && res.status === 200){
+                if(res.ok && res.status === 200){
                     res.text().then((data) =>{
                         location.hash = file;
                         hide_loader();
-                        window.scrollTo(0, 0);
-                        return document.querySelector('main').innerHTML = data;
+                        document.querySelector('main').innerHTML = data;
+                        window.scrollTo(0,0);
+                        return;
                     });
                 }else{
                     hide_loader();
                     return M.toast({html: `${res.status} ${res.statusText}`, classes: "amber darken-3"});
                 }
-            })
+            }).catch(error => {
+                console.log(error);
+                M.toast({html: '<span>Page could not be loaded.</span><button class="btn-flat toast-action" onclick="location.reload()">Retry</button>', classes: "red darken-4 white-text", displayLength: 30000});
+                M.toast({html: `${error}`, classes: 'amber darken-3'});
+                return;
+            });
         }
         function show_loader(){
             document.querySelector('[spinner]').style.display = 'flex';
